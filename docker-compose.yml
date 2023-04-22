@@ -1,0 +1,18 @@
+version: "3.7"
+services:
+  shadowbox:
+    image: quay.io/outline/shadowbox:stable
+    volumes:
+      - ${SB_LOCAL_STATE_DIR}:${SB_CONTAINER_STATE_DIR}
+    environment:
+      - SB_CERTIFICATE_FILE=${SB_CONTAINER_STATE_DIR}/${SB_CERTIFICATE_FILE}.crt
+      - SB_PRIVATE_KEY_FILE=${SB_CONTAINER_STATE_DIR}/${SB_PRIVATE_KEY_FILE}.key
+      # - SB_METRICS_URL=${SB_METRICS_URL}
+      - SB_DEFAULT_SERVER_NAME=${SB_DEFAULT_SERVER_NAME}
+      - SB_API_PORT=${SB_API_PORT}
+      - SB_API_PREFIX=${SB_API_PREFIX}
+    restart: unless-stopped
+    network_mode: host
+    container_name: outline_shadowbox
+    labels:
+      com.centurylinklabs.watchtower.enable: true
