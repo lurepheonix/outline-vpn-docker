@@ -93,8 +93,8 @@ function add_api_url_to_config() {
 
 function write_config() {
   local -a config=()
-  if (( FLAGS_KEYS_PORT != 0 )); then
-    config+=("\"portForNewAccessKeys\": ${FLAGS_KEYS_PORT}")
+  if (( SB_KEYS_PORT != 0 )); then
+    config+=("\"portForNewAccessKeys\": ${SB_KEYS_PORT}")
   fi
   # printf is needed to escape the hostname.
   config+=("$(printf '"hostname": "%q"' "${PUBLIC_HOSTNAME}")")
