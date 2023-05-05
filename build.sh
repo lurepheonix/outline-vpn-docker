@@ -1,12 +1,14 @@
-ENV_FILE=.env
+#!/bin/bash
+
 CONFIG_DIR=config
 
-if [ ! -f .env ]
+if [[ ! -f .env ]]
 then
   echo "Environment variables not found!"
   exit
 fi
 
+# trunk-ignore(shellcheck/SC1091)
 set -o allexport; source .env; set +o allexport
 
 function fetch() {
@@ -72,11 +74,6 @@ function safe_base64() {
   echo -n "${url_safe%%=*}"  # Strip trailing = chars
 }
 
-function generate_secret_key() {
-  SB_API_PREFIX="$(head -c 16 /dev/urandom | safe_base64)"
-  readonly SB_API_PREFIX
-}
-
 function join() {
   local IFS="$1"
   shift
@@ -104,7 +101,7 @@ function write_config() {
 function go() {
   readonly ACCESS_CONFIG="${ACCESS_CONFIG:-${CONFIG_DIR}/access.txt}"
 
-  mkdir $CONFIG_DIR
+  mkdir "${CONFIG_DIR}"
   create_persisted_state_dir
   set_hostname
   generate_certificate
